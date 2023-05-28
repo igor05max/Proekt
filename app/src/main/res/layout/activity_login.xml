@@ -4,34 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context=".LoginActivity">
-
-    <EditText
-        android:id="@+id/editTextTextEmailAddress"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="email"
-        android:inputType="textEmailAddress" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo"
+                android:layout_margin="2dp"
+                />
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="email"
+                android:inputType="textEmailAddress"
+                android:textSize="20dp"
+                android:id="@+id/editTextTextEmailAddress"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="пароль"
+                android:textSize="20dp"
+                android:inputType="textPassword"
+                android:id="@+id/editTextTextPassword"
+                />
 
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ok" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ok"
+                android:textSize="20dp"
+                android:text="вход"
+                android:background="@drawable/button"
+                android:textStyle="italic|bold"
+                />
 
-    <Button
-        android:id="@+id/registation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="reg" />
+            <Button
+                android:id="@+id/registation"
+                android:layout_marginTop="-2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="0"
+                android:background="@drawable/input"
+                android:textColor="@color/teal_700"
+                android:text="регистрация"
+                android:textSize="12dp"
+                android:textStyle="italic|bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
