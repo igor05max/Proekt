@@ -34,6 +34,17 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loadingBar = new ProgressDialog(this);
 
+        TextView textView = findViewById(R.id.est_accaunt);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
 
         Button reg = findViewById(R.id.button_reg);
         reg.setOnClickListener(new View.OnClickListener() {
