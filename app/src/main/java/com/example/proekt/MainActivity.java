@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private TabsAdapter tabsAdapter;
-
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,4 +30,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (currentUser == null) {
+            Intent intent = new Intent(MainActivity.this, WelcomActivity.class);
+            startActivity(intent);
+        }
+    }
 }
