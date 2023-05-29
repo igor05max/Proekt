@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -26,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference rootRef;
+    private String currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         rootRef = FirebaseDatabase.getInstance().getReference();
 
+        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +53,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        userInformation();
+
     }
+
+
 
     private void UpdataIformation() {
         String textName = editText.getText().toString();
@@ -57,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Поле с ником посто", Toast.LENGTH_SHORT).show();
         }
         else {
-            String currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
 
             HashMap<String, Object> profileMap = new HashMap<>();
             profileMap.put("uid", currentUserID);
@@ -81,4 +91,27 @@ public class ProfileActivity extends AppCompatActivity {
                     });
         }
     }
+
+    private void userInformation() {
+        rootRef.child("Users").child(currentUserID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists() && dataSnapshot.child("name").exists()) {
+                            String UserName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                            String UserAbout = Objects.requireNonNull(dataSnapshot.child("about").getValue()).toString();
+
+                            editText.setText(UserName);
+                            editText2.setText(UserAbout);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 }

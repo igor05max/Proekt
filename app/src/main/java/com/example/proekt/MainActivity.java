@@ -109,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        else if (item.getItemId() == R.id.profile_menu) {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+
         return true;
 
     }
