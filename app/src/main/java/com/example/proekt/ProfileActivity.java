@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
-    private EditText editText;
+    private EditText editText, editText2;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference rootRef;
@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         editText = findViewById(R.id.editTextTextPersonName);
+        editText2 = findViewById(R.id.editTextTextMultiLine);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -50,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void UpdataIformation() {
         String textName = editText.getText().toString();
+        String textAbout = editText2.getText().toString();
 
         if (TextUtils.isEmpty(textName)) {
             Toast.makeText(this, "Поле с ником посто", Toast.LENGTH_SHORT).show();
@@ -60,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
             HashMap<String, Object> profileMap = new HashMap<>();
             profileMap.put("uid", currentUserID);
             profileMap.put("name", textName);
+            profileMap.put("about", textAbout);
 
             rootRef.child("Users").child(currentUserID).setValue(profileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
