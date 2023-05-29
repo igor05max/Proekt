@@ -2,7 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="выход"
+        android:title="Профиль"
+        android:id="@+id/profile_menu"
+        app:showAsAction="never"
+        >
+    </item>
+    <item
+        android:title="Выход"
         android:id="@+id/exit_menu"
         app:showAsAction="never"
         >

@@ -13,6 +13,13 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private TabsAdapter tabsAdapter;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference rootRef;
 
 
     @Override
@@ -32,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
 
         viewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
@@ -42,6 +51,43 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (currentUser == null) {
+            Intent intent = new Intent(MainActivity.this, WelcomActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            verifyUser();
+        }
+    }
+
+    private void verifyUser() {
+
+        String currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
+        rootRef.child("Users").child(currentUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("name").exists()) {
+                    Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
