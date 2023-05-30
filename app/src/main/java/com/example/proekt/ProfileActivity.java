@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference rootRef;
     private String currentUserID;
+    private static final int REQUEST_IMAGE_PICK = 1;
     private CircleImageView circleImageView;
 
 
@@ -64,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                changeProfileImage();
             }
         });
 
@@ -72,11 +75,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void changeProfileImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_IMAGE_PICK);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_PICK) {
+            Uri selectedImage = data.getData();
+            // обновление изображения профиля
+            circleImageView.setImageURI(selectedImage);
+        }
     }
 
     private void UpdataIformation() {
