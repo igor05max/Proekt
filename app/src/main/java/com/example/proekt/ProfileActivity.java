@@ -16,6 +16,7 @@ import android.widget.Gallery;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -39,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
     private CircleImageView circleImageView;
 
+    private StorageReference userProfileImageRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         rootRef = FirebaseDatabase.getInstance().getReference();
+        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
@@ -85,9 +92,23 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_PICK) {
+            assert data != null;
             Uri selectedImage = data.getData();
             // обновление изображения профиля
             circleImageView.setImageURI(selectedImage);
+
+            StorageReference filePath = userProfileImageRef.child(currentUserID + ".jpg");
+            filePath.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(ProfileActivity.this, "Okk", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(ProfileActivity.this, "No", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
