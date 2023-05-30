@@ -35,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference rootRef;
     private String currentUserID;
     private CircleImageView circleImageView;
-    private static final int GalleryPick = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
