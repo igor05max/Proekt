@@ -126,6 +126,10 @@ public class ProfileActivity extends AppCompatActivity {
             profileMap.put("uid", currentUserID);
             profileMap.put("name", textName);
             profileMap.put("about", textAbout);
+            profileMap.put("profileTask", "0");
+            profileMap.put("baseTask", "0");
+
+
 
             rootRef.child("Users").child(currentUserID).setValue(profileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
