@@ -2,6 +2,7 @@ package com.example.proekt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -20,7 +21,9 @@ public class WariantProfActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.w1:
-
+                Intent intent = new Intent(WariantProfActivity.this, WRActivity.class);
+                intent.putExtra("wariant_number", "1");
+                startActivity(intent);
                 break;
         }
     }
