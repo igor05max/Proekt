@@ -10,4 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#E34234</color>
     <color name="green">#4cbb17</color>
+
+    <color name="message">#5D5DDD</color>
 </resources>

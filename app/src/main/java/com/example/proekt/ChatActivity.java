@@ -1,15 +1,20 @@
 package com.example.proekt;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -72,7 +77,32 @@ public class ChatActivity extends AppCompatActivity {
         listView = findViewById(R.id.list_of_messages);
         messageField = findViewById(R.id.messageField);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messagesList);
+        adapter = new ArrayAdapter<Message>(this, R.layout.message_item, messagesList) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = convertView;
+                Message message = messagesList.get(position);
+                if (message.getId_username().equals(currentUser.getUid())) {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    view = inflater.inflate(R.layout.message_user, null);
+
+                }
+                else {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    view = inflater.inflate(R.layout.message_item, null);
+
+                }
+                TextView usernameView = view.findViewById(R.id.username);
+                TextView messageTextView = view.findViewById(R.id.message_text);
+                usernameView.setText(message.getNameUser());
+                messageTextView.setText(message.getMessage());
+
+
+
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         FloatingActionButton btnSend = findViewById(R.id.btnSend);
@@ -104,8 +134,6 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
-
         });
     }
 
@@ -113,8 +141,6 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage() {
         String messageText = messageField.getText().toString();
         if (!messageText.isEmpty()) {
-
-
             Message message = new Message(idUser, nameUser, messageText);
             messageRef.push().setValue(message);
             messageField.setText("");
@@ -122,7 +148,5 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(this, "Введите сообщение", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 }
