@@ -45,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private StorageReference userProfileImageRef;
 
+    private String photo = "boy_level_0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,47 +72,22 @@ public class ProfileActivity extends AppCompatActivity {
                 UpdataIformation();
             }
         });
+        userInformation();
+
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeProfileImage();
+                Intent intent = new Intent(ProfileActivity.this, Photo.class);
+                startActivity(intent);
             }
         });
 
-        userInformation();
+
 
     }
 
-    private void changeProfileImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_IMAGE_PICK);
-    }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_PICK) {
-            assert data != null;
-            Uri selectedImage = data.getData();
-            // обновление изображения профиля
-            circleImageView.setImageURI(selectedImage);
-
-            StorageReference filePath = userProfileImageRef.child(currentUserID + ".jpg");
-            filePath.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(ProfileActivity.this, "Okk", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(ProfileActivity.this, "No", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
 
     private void UpdataIformation() {
         String textName = editText.getText().toString();
@@ -126,6 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
             profileMap.put("uid", currentUserID);
             profileMap.put("name", textName);
             profileMap.put("about", textAbout);
+            profileMap.put("picture", photo);
             profileMap.put("profileTask", "0");
             profileMap.put("baseTask", "0");
 
@@ -161,6 +139,32 @@ public class ProfileActivity extends AppCompatActivity {
                             editText.setText(UserName);
                             editText2.setText(UserAbout);
 
+                            photo = Objects.requireNonNull(dataSnapshot.child("picture").getValue()).toString();
+                            switch (photo) {
+                                case "boy_level_0":
+                                    circleImageView.setImageResource(R.drawable.boy_level_0);
+                                    break;
+                                case "boy_level_1":
+                                    circleImageView.setImageResource(R.drawable.boy_level_1);
+                                    break;
+                                case "boy_level_2":
+                                    circleImageView.setImageResource(R.drawable.boy_level_2);
+                                    break;
+                                case "girl_level_0":
+                                    circleImageView.setImageResource(R.drawable.girl_level_0);
+                                    break;
+                                case "girl_level_1":
+                                    circleImageView.setImageResource(R.drawable.girl_level_1);
+                                    break;
+                                case "girl_level_2":
+                                    circleImageView.setImageResource(R.drawable.girl_level_2);
+                                    break;
+                            }
+
+
+                        }
+                        else {
+                            circleImageView.setVisibility(View.GONE);
                         }
                     }
 
