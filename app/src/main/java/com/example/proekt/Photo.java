@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Photo extends AppCompatActivity {
@@ -29,7 +34,12 @@ public class Photo extends AppCompatActivity {
     private String answer = "boy_level_0";
     private FirebaseAuth mAuth;
     private String currentUserID;
-    DatabaseReference userRef;
+    private DatabaseReference rootRef;
+
+    private String UserName;
+    private String UserAbout;
+    private String baseTask;
+    private String profileTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +48,10 @@ public class Photo extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+        rootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         button = findViewById(R.id.buttonPhoto);
 
-//        imageView1 = findViewById(R.id.boy_1);
-//        imageView2 = findViewById(R.id.boy_2);
-//        imageView3 = findViewById(R.id.boy_3);
-//        imageView4 = findViewById(R.id.girl_1);
-//        imageView5 = findViewById(R.id.girl_2);
-//        imageView6 = findViewById(R.id.girl_3);
 
         linearLayout1 = findViewById(R.id.boy_1_layout);
         linearLayout2 = findViewById(R.id.boy_2_layout);
@@ -135,12 +139,12 @@ public class Photo extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                rootRef.child("picture").setValue(answer);
+                Intent intent = new Intent(Photo.this, ProfileActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
     }
-
-
-
 }
