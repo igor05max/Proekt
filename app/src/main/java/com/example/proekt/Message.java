@@ -1,7 +1,11 @@
 package com.example.proekt;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Message {
-    private String id_username, message, nameUser, userPhoto;
+    private String id_username, message, nameUser, userPhoto, moscowTime;
 
     public Message () {}
 
@@ -10,6 +14,14 @@ public class Message {
         this.id_username = id_username;
         this.nameUser = nameUser;
         this.userPhoto = userPhoto;
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+3");
+        Calendar calendar = Calendar.getInstance(timeZone);
+        SimpleDateFormat dataFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        this.moscowTime = dataFormat.format(calendar.getTime());
+    }
+
+    public String getMoscowTime() {
+        return moscowTime;
     }
 
     public String getId_username() {

@@ -113,7 +113,10 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 TextView usernameView = view.findViewById(R.id.username);
                 TextView messageTextView = view.findViewById(R.id.message_text);
+                TextView time = view.findViewById(R.id.time);
+
                 CircleImageView circleImageView = view.findViewById(R.id.profile_image);
+
                 switch (message.getUserPhoto()) {
                     case "boy_level_0":
                         circleImageView.setImageResource(R.drawable.boy_level_0);
@@ -135,6 +138,7 @@ public class ChatActivity extends AppCompatActivity {
                         break;
                 }
 
+                time.setText(message.getMoscowTime());
                 usernameView.setText(message.getNameUser());
                 messageTextView.setText(message.getMessage());
 
@@ -182,6 +186,7 @@ public class ChatActivity extends AppCompatActivity {
         String messageText = messageField.getText().toString();
         if (!messageText.isEmpty()) {
             Message message = new Message(idUser, nameUser, messageText, photoUser);
+//            Toast.makeText(this, message.getMoscowTime(), Toast.LENGTH_SHORT).show();
             messageRef.push().setValue(message);
             messageField.setText("");
         } else {
