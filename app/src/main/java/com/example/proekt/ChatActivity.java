@@ -56,6 +56,9 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("chat");
+        NameChat nameChat = new NameChat(name);
+        setTitle(nameChat.getName_res());
+
         messageRef = FirebaseDatabase.getInstance().getReference(name);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
