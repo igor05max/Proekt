@@ -30,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChatActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -38,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private List<Message> messagesList = new ArrayList<>();
     private ArrayAdapter<Message> adapter;
+    private String photoUser;
 
     private String idUser;
 
@@ -73,6 +76,21 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+        DatabaseReference userRef2 = usersRef.child(idUser).child("picture");
+        userRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    photoUser = dataSnapshot.getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         listView = findViewById(R.id.list_of_messages);
         messageField = findViewById(R.id.messageField);
@@ -95,6 +113,28 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 TextView usernameView = view.findViewById(R.id.username);
                 TextView messageTextView = view.findViewById(R.id.message_text);
+                CircleImageView circleImageView = view.findViewById(R.id.profile_image);
+                switch (message.getUserPhoto()) {
+                    case "boy_level_0":
+                        circleImageView.setImageResource(R.drawable.boy_level_0);
+                        break;
+                    case "boy_level_1":
+                        circleImageView.setImageResource(R.drawable.boy_level_1);
+                        break;
+                    case "boy_level_2":
+                        circleImageView.setImageResource(R.drawable.boy_level_2);
+                        break;
+                    case "girl_level_0":
+                        circleImageView.setImageResource(R.drawable.girl_level_0);
+                        break;
+                    case "girl_level_1":
+                        circleImageView.setImageResource(R.drawable.girl_level_1);
+                        break;
+                    case "girl_level_2":
+                        circleImageView.setImageResource(R.drawable.girl_level_2);
+                        break;
+                }
+
                 usernameView.setText(message.getNameUser());
                 messageTextView.setText(message.getMessage());
 
@@ -141,7 +181,7 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage() {
         String messageText = messageField.getText().toString();
         if (!messageText.isEmpty()) {
-            Message message = new Message(idUser, nameUser, messageText);
+            Message message = new Message(idUser, nameUser, messageText, photoUser);
             messageRef.push().setValue(message);
             messageField.setText("");
         } else {

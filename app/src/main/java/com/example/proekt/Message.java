@@ -1,14 +1,15 @@
 package com.example.proekt;
 
 public class Message {
-    private String id_username, message, nameUser;
+    private String id_username, message, nameUser, userPhoto;
 
     public Message () {}
 
-    public Message(String id_username, String nameUser, String message) {
+    public Message(String id_username, String nameUser, String message, String userPhoto) {
         this.message = message;
         this.id_username = id_username;
         this.nameUser = nameUser;
+        this.userPhoto = userPhoto;
     }
 
     public String getId_username() {
@@ -29,6 +30,14 @@ public class Message {
 
     public String getNameUser() {
         return nameUser;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 
     public void setNameUser(String nameUser) {
