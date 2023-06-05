@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void SingInUser(String email, String password) {
 
-        loadingBar.setTitle("Регистрация");
+        loadingBar.setTitle("Вход");
         loadingBar.setMessage("Подождите, пожалуйста...");
         loadingBar.show();
 

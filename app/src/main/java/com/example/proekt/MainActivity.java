@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("name").exists()) {
-                    Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+
                 }
                 else {
                     Intent intent = new Intent(MainActivity.this, ProfileActivity.class);

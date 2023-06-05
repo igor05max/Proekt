@@ -100,10 +100,6 @@ public class ProfFragment extends Fragment {
 
 
 
-//        ProgressBar progressBar = view.findViewById(R.id.pb);
-//        progressBar.setProgress();
-
-
 
         return view;
     }
