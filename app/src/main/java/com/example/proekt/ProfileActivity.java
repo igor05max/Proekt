@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +48,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private String photo = "boy_level_0";
 
+    private TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.editTextTextPersonName);
         editText2 = findViewById(R.id.editTextTextMultiLine);
+        textView = findViewById(R.id.id_user);
 
         circleImageView = findViewById(R.id.profile_image);
 
@@ -63,6 +67,8 @@ public class ProfileActivity extends AppCompatActivity {
         rootRef = FirebaseDatabase.getInstance().getReference();
 
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
+        textView.setText("id: " + currentUserID);
 
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {

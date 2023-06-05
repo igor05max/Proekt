@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ public class Profile_for_users extends AppCompatActivity {
     private DatabaseReference rootRef;
     private CircleImageView circleImageView;
     private EditText editText, editText2;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,12 @@ public class Profile_for_users extends AppCompatActivity {
 
         circleImageView = findViewById(R.id.profile_image);
 
+        textView = findViewById(R.id.id_user);
         editText = findViewById(R.id.editTextTextPersonName);
         editText2 = findViewById(R.id.editTextTextMultiLine);
+
+        textView.setText("id: " + id_user);
+
 
         userInformation();
 

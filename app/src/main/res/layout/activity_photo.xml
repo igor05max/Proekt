@@ -51,6 +51,8 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+
+
         <LinearLayout
             android:id="@+id/boy_2_layout"
             android:layout_width="114dp"
@@ -64,18 +66,17 @@
                 android:id="@+id/boy_2"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:srcCompat="@drawable/boy_level_2" />
+                app:srcCompat="@drawable/boy_level_1" />
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="мастер"
+                android:text="продвинутый"
                 android:textSize="15dp"
                 android:textStyle="bold" />
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/boy_3_layout"
             android:layout_width="114dp"
@@ -89,14 +90,14 @@
                 android:id="@+id/boy_3"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                app:srcCompat="@drawable/boy_level_1" />
+                app:srcCompat="@drawable/boy_level_2" />
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="продвинутый"
+                android:text="мастер"
                 android:textSize="15dp"
                 android:textStyle="bold" />
         </LinearLayout>
