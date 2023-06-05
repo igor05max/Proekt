@@ -40,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference rootRef;
     private String currentUserID;
-    private static final int REQUEST_IMAGE_PICK = 1;
+
     private CircleImageView circleImageView;
 
     private StorageReference userProfileImageRef;
@@ -61,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         rootRef = FirebaseDatabase.getInstance().getReference();
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
