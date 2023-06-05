@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -142,7 +143,21 @@ public class ChatActivity extends AppCompatActivity {
                 usernameView.setText(message.getNameUser());
                 messageTextView.setText(message.getMessage());
 
+                circleImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Objects.equals(idUser, message.getId_username())) {
+                            Intent intent1 = new Intent(ChatActivity.this, ProfileActivity.class);
+                            startActivity(intent1);
+                        }
+                        else {
+                            Intent intent1 = new Intent(ChatActivity.this, Profile_for_users.class);
+                            intent1.putExtra("id_user", message.getId_username());
+                            startActivity(intent1);
+                        }
 
+                    }
+                });
 
                 return view;
             }
@@ -186,7 +201,6 @@ public class ChatActivity extends AppCompatActivity {
         String messageText = messageField.getText().toString();
         if (!messageText.isEmpty()) {
             Message message = new Message(idUser, nameUser, messageText, photoUser);
-//            Toast.makeText(this, message.getMoscowTime(), Toast.LENGTH_SHORT).show();
             messageRef.push().setValue(message);
             messageField.setText("");
         } else {

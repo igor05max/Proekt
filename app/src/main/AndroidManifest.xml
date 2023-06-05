@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Proekt"
         tools:targetApi="31">
         <activity
+            android:name=".Profile_for_users"
+            android:exported="false" />
+        <activity
             android:name=".Photo"
             android:exported="false" />
         <activity
